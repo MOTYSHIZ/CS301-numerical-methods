@@ -46,6 +46,20 @@ public class Main {
                 fa = fc;
             }
         }
+    }
+
+    private static void newtonMethod(double x, int nmax, double errorThreshold, double delta, int functionToUse){
+        double fx, fp;
+
+        //Initialize function values,
+        if(functionToUse == 1){
+            fx = function1(x);
+            fp = function1Derived(x);
+        }
+        else {
+            fx = function2(x);
+            fp = function2Derived(x);
+        }
 
     }
 
@@ -53,7 +67,15 @@ public class Main {
         return 2*Math.pow(x, 3) - 11.7*Math.pow(x,2) + 17.7*x - 5;
     }
 
+    private static double function1Derived(double x){
+        return 6*Math.pow(x, 2) - 23.4*x + 17.7;
+    }
+
     private static double function2(double x){
         return Math.exp(-x) - x;
+    }
+
+    private static double function2Derived(double x){
+        return -Math.exp(-x) - 1;
     }
 }
