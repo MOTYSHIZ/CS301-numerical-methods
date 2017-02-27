@@ -30,13 +30,14 @@ public class Main {
             e.printStackTrace();
         }
 
+        System.out.println("Input File: ");
         for(int i = 0; i < xArray.length; i++){
             System.out.print(xArray[i] + " ");
         } System.out.println();
 
         for(int i = 0; i < yArray.length; i++){
             System.out.print(yArray[i] + " ");
-        }System.out.println();
+        }System.out.println("\n");
 
         dividedDifferenceTablePrinter();
     }
@@ -46,10 +47,11 @@ public class Main {
 
         for(int i = 0; i < topLabel.length; i++){
             System.out.printf("%-7s ", topLabel[i]);
-        }System.out.println();
+        }System.out.println("\n");
 
         for(int i = 0; i < xArray.length; i++){
-            System.out.printf("%-7.3f %-7.3f\n", xArray[i], yArray[i]);
+            System.out.printf("%-7.3f %-7.3f\n\n", xArray[i], yArray[i]);
+            System.out.printf("\n\n");
         }
     }
 }
