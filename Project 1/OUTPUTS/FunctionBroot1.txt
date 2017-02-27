@@ -1,0 +1,38 @@
+Bisection Method:
+n:  0  a:  0.000  b:  1.000  c:  0.500  f(a):  1.000  fb: -0.632  fc:  0.107  error:  0.500
+n:  1  a:  0.500  b:  1.000  c:  0.750  f(a):  0.107  fb: -0.632  fc: -0.278  error:  0.250
+n:  2  a:  0.500  b:  0.750  c:  0.625  f(a):  0.107  fb: -0.278  fc: -0.090  error:  0.125
+n:  3  a:  0.500  b:  0.625  c:  0.563  f(a):  0.107  fb: -0.090  fc:  0.007  error:  0.063
+n:  4  a:  0.563  b:  0.625  c:  0.594  f(a):  0.007  fb: -0.090  fc: -0.041  error:  0.031
+n:  5  a:  0.563  b:  0.594  c:  0.578  f(a):  0.007  fb: -0.041  fc: -0.017  error:  0.016
+n:  6  a:  0.563  b:  0.578  c:  0.570  f(a):  0.007  fb: -0.017  fc: -0.005  error:  0.008
+Convergence at 0.5703125.
+
+False-Position Method:
+n:  0  a:  0.000  b:  1.000  c:  0.613  f(a):  1.000  fb: -0.632  fc: -0.071  error:  1.000
+n:  1  a:  0.000  b:  0.613  c:  0.572  f(a):  1.000  fb: -0.071  fc: -0.008  error: -0.071
+n:  2  a:  0.000  b:  0.572  c:  0.568  f(a):  1.000  fb: -0.008  fc: -0.001  error: -0.008
+Convergence at 0.567703214235785.
+
+Newton-Raphson Method:
+n:  0  x:  1.000  f(x): -0.632  f'(x): -1.368
+n:  1  x:  0.538  f(x):  0.046  f'(x): -1.368  error:  0.462
+n:  2  x:  0.567  f(x):  0.000  f'(x): -1.584  error: -0.029
+n:  3  x:  0.567  f(x):  0.000  f'(x): -1.567  error: -0.000
+Convergence at 0.567143285989123.
+
+Secant Method:
+n:  0  a:  1.000  f(a): -0.632
+n:  1  b:  0.000  f(b):  1.000
+n:  2  a:  0.613  f(a): -0.071  error:  0.387
+n:  3  a:  0.564  f(a):  0.005  error:  0.049
+Convergence at 0.5638383891610742.
+
+Modified Secant Method:
+n:  0  x:  1.000  f(x): -0.632  delta:  0.010  f(x + delta*x): -0.646
+n:  1  x:  0.537  f(x):  0.047  error:  0.463
+n:  2  x:  0.567  f(x):  0.000  error: -0.030
+Convergence at 0.5670096853649093.
+
+
+Process finished with exit code 0

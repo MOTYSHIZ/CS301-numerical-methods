@@ -1,0 +1,48 @@
+Bisection Method:
+n:  0  a:  3.000  b:  4.000  c:  3.500  f(a): -3.200  fb:  6.600  fc: -0.625  error:  0.500
+n:  1  a:  3.500  b:  4.000  c:  3.750  f(a): -0.625  fb:  6.600  fc:  2.313  error:  0.250
+n:  2  a:  3.500  b:  3.750  c:  3.625  f(a): -0.625  fb:  2.313  fc:  0.687  error:  0.125
+n:  3  a:  3.500  b:  3.625  c:  3.563  f(a): -0.625  fb:  0.687  fc: -0.007  error:  0.063
+n:  4  a:  3.563  b:  3.625  c:  3.594  f(a): -0.007  fb:  0.687  fc:  0.330  error:  0.031
+n:  5  a:  3.563  b:  3.594  c:  3.578  f(a): -0.007  fb:  0.330  fc:  0.159  error:  0.016
+n:  6  a:  3.563  b:  3.578  c:  3.570  f(a): -0.007  fb:  0.159  fc:  0.076  error:  0.008
+Convergence at 3.5703125.
+
+False-Position Method:
+n:  0  a:  3.000  b:  4.000  c:  3.327  f(a): -3.200  fb:  6.600  fc: -1.969  error:  1.000
+n:  1  a:  3.327  b:  4.000  c:  3.481  f(a): -1.969  fb:  6.600  fc: -0.796  error:  0.044
+n:  2  a:  3.481  b:  4.000  c:  3.537  f(a): -0.796  fb:  6.600  fc: -0.267  error:  0.016
+n:  3  a:  3.537  b:  4.000  c:  3.555  f(a): -0.267  fb:  6.600  fc: -0.084  error:  0.005
+Convergence at 3.5551013438441474.
+
+Newton-Raphson Method:
+n:  0  x:  3.000  f(x): -3.200  f'(x):  1.500
+n:  1  x:  5.133  f(x): 48.090  f'(x):  1.500  error: -2.133
+n:  2  x:  4.270  f(x): 12.956  f'(x): 55.687  error:  0.864
+n:  3  x:  3.793  f(x):  2.948  f'(x): 27.172  error:  0.477
+n:  4  x:  3.600  f(x):  0.398  f'(x): 15.263  error:  0.193
+n:  5  x:  3.564  f(x):  0.012  f'(x): 11.216  error:  0.035
+n:  6  x:  3.563  f(x):  0.000  f'(x): 10.522  error:  0.001
+Convergence at 3.5631621003251914.
+
+Secant Method:
+n:  0  a:  3.000  f(a): -3.200
+n:  1  b:  4.000  f(b):  6.600
+n:  2  a:  3.327  f(a): -1.969  error: -0.327
+n:  3  a:  3.849  f(a):  3.834  error: -0.522
+n:  4  a:  3.504  f(a): -0.590  error: -0.177
+n:  5  a:  3.580  f(a):  0.175  error: -0.076
+n:  6  a:  3.562  f(a): -0.010  error:  0.017
+Convergence at 3.562231939312152.
+
+Modified Secant Method:
+n:  0  x:  3.000  f(x): -3.200  delta:  0.010  f(x + delta*x): -3.149
+n:  1  x:  4.893  f(x): 35.763  error: -1.893
+n:  2  x:  4.143  f(x):  9.730  error:  0.750
+n:  3  x:  3.742  f(x):  2.203  error:  0.401
+n:  4  x:  3.591  f(x):  0.300  error:  0.151
+n:  5  x:  3.565  f(x):  0.016  error:  0.026
+Convergence at 3.564700590048559.
+
+
+Process finished with exit code 0
