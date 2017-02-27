@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class Main {
     private static float[] xArray;
     private static float[] yArray;
+    private static float[] coefArray;
+
 
     public static void main(String args[]){
         File file = new File("input.txt");
@@ -40,6 +42,24 @@ public class Main {
         }System.out.println("\n");
 
         dividedDifferenceTablePrinter();
+    }
+
+    private static void dividedDifferenceCoefficientComputation(){
+        coefArray = new float[xArray.length];
+
+        for(int i = 0; i < coefArray.length; i++){
+            coefArray[i] = yArray[i];
+        }
+
+        for(int i = 1; i < coefArray.length; i++){
+            for(int j = coefArray.length-1; j > i; j--){
+                coefArray[j] = (coefArray[j] - coefArray[j-1])/(xArray[j] - xArray[j-1]);
+            }
+        }
+    }
+
+    private static void dividedDifferenceEval(){
+
     }
 
     private static void dividedDifferenceTablePrinter(){
