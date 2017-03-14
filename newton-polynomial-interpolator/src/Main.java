@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
 import java.util.Scanner;
 
 public class Main {
-    private static float[] xArray;
-    private static float[] yArray;
-    private static float[][] coefArray;
+    private static double[] xArray;
+    private static double[] yArray;
+    private static double[][] coefArray;
     private static DecimalFormat df;
 
 
@@ -28,8 +28,8 @@ public class Main {
 
             String[] xStringarray = sc.nextLine().split(" ");
             String[] yStringarray = sc.nextLine().split(" ");
-            xArray = new float[xStringarray.length];
-            yArray = new float[yStringarray.length];
+            xArray = new double[xStringarray.length];
+            yArray = new double[yStringarray.length];
 
             for(int i = 0; i < xStringarray.length; i++){
                 xArray[i] = Float.parseFloat(xStringarray[i]);
@@ -41,29 +41,29 @@ public class Main {
             e.printStackTrace();
         }
 
+        printInputFile();
+        dividedDifferenceCoefficientComputation();
+        dividedDifferenceTablePrinter();
+        printNewtonPolynomial();
+        simplifyPolynomial();
+    }
+
+    private static void printInputFile(){
         System.out.println("Input File: ");
-        for (float xVal : xArray) {
+        for (double xVal : xArray) {
             System.out.printf("%-7s", df.format(xVal));
         }
         System.out.println();
 
-        for (float yVal : yArray) {
+        for (double yVal : yArray) {
             System.out.printf("%-7s", df.format(yVal));
         }
         System.out.println("\n");
-
-        dividedDifferenceCoefficientComputation();
-        dividedDifferenceTablePrinter();
-        printNewtonPolynomial();
-        //regexTest();
-        regexFind("(x [-+] \\d*[.]?\\d*)|x",
-                "3 + 0.5(x - 1) + 0.33(x - 1)(x - 1.5) - 2(x - 1)(x - 1.5)(x)");
-
-        simplifyPolynomial();
     }
 
+    //Compute the coefficients in the Divided Difference table.
     private static void dividedDifferenceCoefficientComputation(){
-        coefArray = new float[xArray.length][xArray.length];
+        coefArray = new double[xArray.length][xArray.length];
 
         //Copy the coeffArray from the yArray.
         System.arraycopy(yArray, 0, coefArray[0], 0, coefArray.length);
@@ -78,8 +78,6 @@ public class Main {
 
     //prints the polynomial in Newton=form
     private static void printNewtonPolynomial(){
-
-
         String polynomial = "" + df.format(coefArray[0][0]);
 
         for(int i = 1; i < coefArray.length; i++){
@@ -93,7 +91,6 @@ public class Main {
                 }
             }
         }
-
         System.out.println("Newton-Form Polynomial Rounded to two decimal places:\n" + polynomial);
     }
 
@@ -117,46 +114,66 @@ public class Main {
         }
     }
 
+    //Generates and prints the simplified polynomial.
     private static void simplifyPolynomial(){
         ArrayList<ArrayList<PolynomialElement>> polynomialExpressions = new ArrayList<>();
+        ArrayList<PolynomialElement> currentExpression = new ArrayList<>();
+        currentExpression.add(new PolynomialElement(1,0));
+        String resultingPolynomial = "";
 
-        ArrayList<PolynomialElement> aL;
-        PolynomialElement pe = new PolynomialElement(1,1);
+        //Form the polyExpressions.
+        for(int i = 1; i < xArray.length; i++){
+            //For all polyElems in the expression, increment degree, then subtract by self*xArray[i]
+            ArrayList<PolynomialElement> nextExpressionMultiplied = new ArrayList<>();
+            ArrayList<PolynomialElement> nextExpression = new ArrayList<>();
+            for(PolynomialElement pe : currentExpression){
+                PolynomialElement incrementedDegreeElem =
+                        new PolynomialElement(pe.coefficient, pe.degree);
+                incrementedDegreeElem.degree += 1;
 
-        for(int i = 0; i < xArray.length; i++){
+                PolynomialElement multipliedElem =
+                        new PolynomialElement(pe.coefficient*-xArray[i-1], pe.degree);
 
-        }
-    }
+                nextExpression.add(incrementedDegreeElem);
+                nextExpression.add(multipliedElem);
 
-    private static void regexTest(){
-        Scanner kb = new Scanner(System.in);
-
-        System.out.print("Enter your regex: ");
-        Pattern pattern = Pattern.compile(kb.nextLine());
-
-        System.out.print("Enter input string to search: ");
-        Matcher matcher = pattern.matcher(kb.nextLine());
-
-        while (matcher.find()) {
-            System.out.printf("I found the text \"%s\" starting at " +
-                            "index %d and ending at index %d.%n",
-                    matcher.group(), matcher.start(), matcher.end());
-        }
-    }
-
-    private static List<String> regexFind(String expression, String stringToSearch){
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(stringToSearch);
-        ArrayList<String> stringList = new ArrayList<>();
-
-        while (matcher.find()) {
-            stringList.add(matcher.group());
+                //The expression multipled by the coefficient obtained from the Divided difference table.
+                nextExpressionMultiplied.add( new PolynomialElement(
+                        incrementedDegreeElem.coefficient*coefArray[i][i], incrementedDegreeElem.degree));
+                nextExpressionMultiplied.add(new PolynomialElement(
+                        multipliedElem.coefficient*coefArray[i][i], multipliedElem.degree));
+            }
+            polynomialExpressions.add(nextExpressionMultiplied);
+            currentExpression = nextExpression;
         }
 
-        for(String s : stringList){
-            System.out.println(s);
+        //Take the expressions and put them into one expression collection for simpler manipulation.
+        currentExpression.clear();
+        currentExpression.add(new PolynomialElement(coefArray[0][0],0));
+        for(List<PolynomialElement> expression: polynomialExpressions){
+            currentExpression.addAll(expression);
         }
 
-        return stringList;
+        //Add all like terms of the currentExpression.
+        for(int i = 0; i < currentExpression.size(); i++){
+            for(int j = 0; j < currentExpression.size(); j++){
+                if(currentExpression.get(i).degree == currentExpression.get(j).degree && i != j){
+                    currentExpression.get(i).coefficient += currentExpression.get(j).coefficient;
+                    currentExpression.remove(j);
+                    j--;
+                }
+            }
+        }
+
+        currentExpression.sort(PolynomialElement::compareTo);
+
+        //Add all elements of the currentExpression to the resulting string.
+        for(PolynomialElement pe: currentExpression){
+            if(resultingPolynomial == "")resultingPolynomial += pe.getStringRepresentation();
+            else if(pe.coefficient > 0)resultingPolynomial += " + " + pe.getStringRepresentation();
+            else if(pe.coefficient < 0) resultingPolynomial += " + (" + pe.getStringRepresentation() + ")";
+        }
+
+        System.out.println("Simplified Polynomial: \n" + resultingPolynomial);
     }
 }
