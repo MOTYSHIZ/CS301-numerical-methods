@@ -5,11 +5,7 @@
 import java.io.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static double[] xArray;
@@ -22,6 +18,7 @@ public class Main {
         File file = new File("input.txt");
         df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.HALF_UP);
+        PolynomialElement.df.setRoundingMode(RoundingMode.HALF_UP);
 
         try {
             Scanner sc = new Scanner(file);
@@ -116,12 +113,11 @@ public class Main {
 
     //Generates and prints the simplified polynomial.
     private static void simplifyPolynomial(){
-        ArrayList<ArrayList<PolynomialElement>> polynomialExpressions = new ArrayList<>();
-        ArrayList<PolynomialElement> currentExpression = new ArrayList<>();
+        ArrayList<ArrayList<PolynomialElement>> polynomialExpressions = new ArrayList<>(xArray.length);
+        ArrayList<PolynomialElement> currentExpression = new ArrayList<>(xArray.length);
         currentExpression.add(new PolynomialElement(1,0));
         String resultingPolynomial = "";
 
-        //Form the polyExpressions.
         for(int i = 1; i < xArray.length; i++){
             //For all polyElems in the expression, increment degree, then subtract by self*xArray[i]
             ArrayList<PolynomialElement> nextExpressionMultiplied = new ArrayList<>();
@@ -137,7 +133,7 @@ public class Main {
                 nextExpression.add(incrementedDegreeElem);
                 nextExpression.add(multipliedElem);
 
-                //The expression multipled by the coefficient obtained from the Divided difference table.
+                //The expression multiplied by the coefficient obtained from the Divided difference table.
                 nextExpressionMultiplied.add( new PolynomialElement(
                         incrementedDegreeElem.coefficient*coefArray[i][i], incrementedDegreeElem.degree));
                 nextExpressionMultiplied.add(new PolynomialElement(
@@ -175,5 +171,52 @@ public class Main {
         }
 
         System.out.println("Simplified Polynomial: \n" + resultingPolynomial);
+    }
+
+    private static ArrayList<PolynomialElement> arrayListCopy(ArrayList<PolynomialElement> arrayList){
+        ArrayList<PolynomialElement> copy = new ArrayList<>();
+        for(PolynomialElement polyElem: arrayList){
+            copy.add(new PolynomialElement(polyElem.coefficient, polyElem.degree));
+        }
+        return copy;
+    }
+
+    //I used this to generate random inputs.
+    private static void testInputGenerator(){
+        float[] xFloats = new float[30];
+        float[] yFloats = new float[30];
+        Random rand = new Random();
+
+        for(int i = 0; i < xFloats.length; i++){
+            float randomX = rand.nextFloat()*100;
+            float randomY = rand.nextFloat()*100;
+
+            while(arrayContains(xFloats,randomX)){
+                randomX = rand.nextFloat()*100;
+            }
+            while(arrayContains(yFloats,randomY)){
+                randomY = rand.nextFloat()*100;
+            }
+
+            xFloats[i] = randomX;
+            yFloats[i] = randomY;
+        }
+
+        printArray(xFloats);
+        printArray(yFloats);
+    }
+
+    private static boolean arrayContains(float[] array, float num){
+        for(int i=0; i < array.length; i++){
+            if(array[i] == num)return true;
+        }
+        return false;
+    }
+
+    private static void printArray(float[] array){
+        for(int i=0; i < array.length; i++){
+            System.out.printf("%.2f " , array[i]);
+        }
+        System.out.println();
     }
 }

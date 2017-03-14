@@ -1,7 +1,5 @@
 import java.math.RoundingMode;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Comparator;
 
 /**
  * Created by Justin Ordonez on 3/13/2017.
@@ -9,10 +7,9 @@ import java.util.Comparator;
 public class PolynomialElement implements Comparable<PolynomialElement>{
     public double coefficient;
     public int degree;
-    DecimalFormat df = new DecimalFormat("#.###");
+    public static DecimalFormat df = new DecimalFormat("#.###");
 
     PolynomialElement(double coefficient, int degree){
-        df.setRoundingMode(RoundingMode.HALF_UP);
         this.degree = degree;
         this.coefficient = coefficient;
     }
