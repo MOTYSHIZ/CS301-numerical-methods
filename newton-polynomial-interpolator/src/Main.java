@@ -5,18 +5,22 @@
 import java.io.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Scanner;
 
 public class Main {
     private static float[] xArray;
     private static float[] yArray;
     private static float[][] coefArray;
+    private static DecimalFormat df;
 
 
     public static void main(String args[]){
         File file = new File("input.txt");
-        DecimalFormat df = new DecimalFormat("#.##");
+        df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.HALF_UP);
 
         try {
@@ -38,26 +42,31 @@ public class Main {
         }
 
         System.out.println("Input File: ");
-        for(int i = 0; i < xArray.length; i++){
-            System.out.printf("%-7s", df.format(xArray[i]));
-        } System.out.println();
+        for (float xVal : xArray) {
+            System.out.printf("%-7s", df.format(xVal));
+        }
+        System.out.println();
 
-        for(int i = 0; i < yArray.length; i++){
-            System.out.printf("%-7s", df.format(yArray[i]));
-        }System.out.println("\n");
+        for (float yVal : yArray) {
+            System.out.printf("%-7s", df.format(yVal));
+        }
+        System.out.println("\n");
 
         dividedDifferenceCoefficientComputation();
         dividedDifferenceTablePrinter();
         printNewtonPolynomial();
+        //regexTest();
+        regexFind("(x [-+] \\d*[.]?\\d*)|x",
+                "3 + 0.5(x - 1) + 0.33(x - 1)(x - 1.5) - 2(x - 1)(x - 1.5)(x)");
+
+        simplifyPolynomial();
     }
 
     private static void dividedDifferenceCoefficientComputation(){
         coefArray = new float[xArray.length][xArray.length];
 
         //Copy the coeffArray from the yArray.
-        for(int j = 0; j < coefArray.length; j++){
-            coefArray[0][j] = yArray[j];
-        }
+        System.arraycopy(yArray, 0, coefArray[0], 0, coefArray.length);
 
         //For each step of div difference, calculate from end of array to current i.
         for(int i = 1; i < coefArray.length; i++){
@@ -69,8 +78,7 @@ public class Main {
 
     //prints the polynomial in Newton=form
     private static void printNewtonPolynomial(){
-        DecimalFormat df = new DecimalFormat("#.##");
-        df.setRoundingMode(RoundingMode.HALF_UP);
+
 
         String polynomial = "" + df.format(coefArray[0][0]);
 
@@ -92,12 +100,11 @@ public class Main {
     //prints the divided difference table.
     private static void dividedDifferenceTablePrinter(){
         String[] topLabel = {"x", "f[]", "f[,]", "f[,,]", "f[,,,]", "..."};
-        DecimalFormat df = new DecimalFormat("#.##");
-        df.setRoundingMode(RoundingMode.HALF_UP);
 
-        for(int i = 0; i < topLabel.length; i++){
-            System.out.printf("%-7s ", topLabel[i]);
-        }System.out.println("\n");
+        for (String topLabelElem : topLabel) {
+            System.out.printf("%-7s ", topLabelElem);
+        }
+        System.out.println("\n");
 
         for(int i = 0; i < xArray.length; i++){
             System.out.printf("%-7s", df.format(xArray[i]));
@@ -108,5 +115,48 @@ public class Main {
 
             System.out.printf("\n\n");
         }
+    }
+
+    private static void simplifyPolynomial(){
+        ArrayList<ArrayList<PolynomialElement>> polynomialExpressions = new ArrayList<>();
+
+        ArrayList<PolynomialElement> aL;
+        PolynomialElement pe = new PolynomialElement(1,1);
+
+        for(int i = 0; i < xArray.length; i++){
+
+        }
+    }
+
+    private static void regexTest(){
+        Scanner kb = new Scanner(System.in);
+
+        System.out.print("Enter your regex: ");
+        Pattern pattern = Pattern.compile(kb.nextLine());
+
+        System.out.print("Enter input string to search: ");
+        Matcher matcher = pattern.matcher(kb.nextLine());
+
+        while (matcher.find()) {
+            System.out.printf("I found the text \"%s\" starting at " +
+                            "index %d and ending at index %d.%n",
+                    matcher.group(), matcher.start(), matcher.end());
+        }
+    }
+
+    private static List<String> regexFind(String expression, String stringToSearch){
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(stringToSearch);
+        ArrayList<String> stringList = new ArrayList<>();
+
+        while (matcher.find()) {
+            stringList.add(matcher.group());
+        }
+
+        for(String s : stringList){
+            System.out.println(s);
+        }
+
+        return stringList;
     }
 }
